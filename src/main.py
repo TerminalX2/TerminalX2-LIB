@@ -21,14 +21,17 @@ brain = Brain()
 # VEXcode device constructors
 controller = Controller(PRIMARY)
 
+# Add motors here
 drive_LF = Motor(Ports.PORT1, GearSetting.RATIO_6_1, True)
 drive_LB = Motor(Ports.PORT2, GearSetting.RATIO_6_1, True)
 drive_RF = Motor(Ports.PORT3, GearSetting.RATIO_6_1, True)
 drive_RB = Motor(Ports.PORT4, GearSetting.RATIO_6_1, True)
 placeholder_motor_5 = Motor(Ports.PORT5, GearSetting.RATIO_6_1, True)
 
+# Add sensors here
 inertial = Inertial(Ports.PORT5)
 
+# Add motor groups/drivetrains here
 drive_L = MotorGroup(drive_LF, drive_LB)
 drive_R = MotorGroup(drive_RF, drive_RB)
 drive = MotorGroup(drive_LF, drive_LB, drive_RF, drive_RB)
@@ -213,9 +216,15 @@ def autonomous():
     else:
         pass # Does not run auton
 
-def control_reverse_arcade():
-    throttle = deadband(controller.axis2.position(), 5)
-    turn = deadband(controller.axis4.position(), 5)
+def control_tank():
+    left_throttle = deadband(controller.axis3.value(), 5)
+    right_throttle = deadband(controller.axis2.value(), 5)
+    drive_L.spin(FORWARD, to_volt(left_throttle), VOLT)
+    drive_R.spin(FORWARD, to_volt(right_throttle), VOLT)
+
+def control_arcade():
+    throttle = deadband(controller.axis3.value(), 5)
+    turn = deadband(controller.axis1.value(), 5)
     drive_L.spin(FORWARD, to_volt(throttle + turn), VOLT)
     drive_R.spin(FORWARD, to_volt(throttle - turn), VOLT)
 
@@ -241,7 +250,8 @@ def user_control():
         # update your motors, etc.
         # ........................................................................
 
-        control_reverse_arcade()
+        # Replace this line with control_tank() for tank drive
+        control_arcade()
 
         wait(20, MSEC) # Sleep the task for a short amount of time to
                        # prevent wasted resources.
