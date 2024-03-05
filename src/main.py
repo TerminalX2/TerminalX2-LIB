@@ -216,17 +216,43 @@ def autonomous():
     else:
         pass # Does not run auton
 
-def control_tank():
-    left_throttle = deadband(controller.axis3.value(), 5)
-    right_throttle = deadband(controller.axis2.value(), 5)
-    drive_L.spin(FORWARD, to_volt(left_throttle), VOLT)
-    drive_R.spin(FORWARD, to_volt(right_throttle), VOLT)
+#---------------------------------------------------------------------------#
+#                             Drive Functions                               #
+#---------------------------------------------------------------------------#
+
+def drive_with_voltage(left_voltage, right_voltage):
+    drive_L.spin(FORWARD, left_voltage, VOLT)
+    drive_R.spin(FORWARD, right_voltage, VOLT)
+
+# COMING FUNCTIONS
+# drive_distance()
+# turn_to_angle()
+# left_swing_to_angle()
+# right_swing_to_angle()
+# drive_to_point()
+# turn_to_point()
+# arcturn()
 
 def control_arcade():
     throttle = deadband(controller.axis3.value(), 5)
     turn = deadband(controller.axis1.value(), 5)
     drive_L.spin(FORWARD, to_volt(throttle + turn), VOLT)
     drive_R.spin(FORWARD, to_volt(throttle - turn), VOLT)
+
+def control_tank():
+    left_throttle = deadband(controller.axis3.value(), 5)
+    right_throttle = deadband(controller.axis2.value(), 5)
+    drive_L.spin(FORWARD, to_volt(left_throttle), VOLT)
+    drive_R.spin(FORWARD, to_volt(right_throttle), VOLT)
+
+def control_holonomic():
+    throttle = deadband(controller.axis3.value(), 5)
+    turn = deadband(controller.axis1.value(), 5)
+    strafe = deadband(controller.axis4.value(), 5)
+    drive_LF.spin(FORWARD, to_volt(throttle + turn + strafe), VOLT)
+    drive_LB.spin(FORWARD, to_volt(throttle + turn - strafe), VOLT)
+    drive_RF.spin(FORWARD, to_volt(throttle - turn - strafe), VOLT)
+    drive_RB.spin(FORWARD, to_volt(throttle - turn + strafe), VOLT)
 
 #---------------------------------------------------------------------------#
 #                                                                           #
@@ -250,7 +276,8 @@ def user_control():
         # update your motors, etc.
         # ........................................................................
 
-        # Replace this line with control_tank() for tank drive
+        # Replace this line with control_tank() for tank drive 
+        # or control_holonomic() for holomonic drive
         control_arcade()
 
         wait(20, MSEC) # Sleep the task for a short amount of time to
@@ -260,23 +287,13 @@ def user_control():
 #                               Button Macros                               #
 #---------------------------------------------------------------------------#
 
-active = False # Toggle boolean
-
-def macro_motor_5_fwd():
-    global active
-    active = not active
-    if active:
-        placeholder_motor_5.spin(FORWARD, 11, VOLT)
-    else:
-        placeholder_motor_5.stop()
-
-def macro_motor_5_rev():
-    global active
-    active = not active
-    if active:
-        placeholder_motor_5.spin(REVERSE, 11, VOLT)
-    else:
-        placeholder_motor_5.stop()
+def macro_button_L1():
+    # Insert code here and remove the 'pass' keyword
+    pass
+    
+def macro_button_L2():
+    # Insert code here and remove the 'pass' keyword
+    pass
 
 # Set up callbacks for autonomous and driver control periods.
 controller.buttonL1.pressed(macro_motor_5_fwd)
