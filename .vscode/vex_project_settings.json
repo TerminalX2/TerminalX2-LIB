@@ -5,8 +5,8 @@
 	},
 	"project": {
 		"name": "VEX_Program",
-		"description": "",
-		"creationDate": "3/2/2024, 11:39:38 AM",
+		"description": "This is a VEX program.",
+		"creationDate": "",
 		"platform": "V5",
 		"language": "python",
 		"slot": 1,
