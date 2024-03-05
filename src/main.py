@@ -231,7 +231,7 @@ def drive_with_voltage(left_voltage, right_voltage):
 # right_swing_to_angle()
 # drive_to_point()
 # turn_to_point()
-# arcturn()
+# turn_along_arc()
 
 def control_arcade():
     throttle = deadband(controller.axis3.value(), 5)
