@@ -55,11 +55,8 @@ def to_rad(angle_deg):
 def to_deg(angle_rad):
     return angle_rad*(180/pi)
 
-def clamp(input, max, min):
-    if input > max:
-        return max
-    if input < min: 
-        return min
+def clamp(input, max_limit, min_limit):
+    input = max(min(input, max_limit), min_limit)
     return input
 
 def is_reversed(input):
